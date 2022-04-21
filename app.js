@@ -113,7 +113,6 @@ getImg();
 // 6. Use the OMDb API as well as Axios (http://www.omdbapi.com/) to display a movie poster of your choice next to the image of Pikachu using the t parameter endpoint (NOTE: Technically it is a query string, but they call it a parameter on the documentation. Also, you will need to create/request a FREE API key at http://www.omdbapi.com/apikey.aspx to complete this. Finally, you can use .then or Async Await to complete this question it is up to you.)
 async function getPoster(){
     try{
-
         const omdbAPI = `http://www.omdbapi.com/?i=tt0119822&apikey=a3726122`;
         const aG = await axios.get(omdbAPI);
         console.log(aG);
@@ -128,4 +127,7 @@ async function getPoster(){
     }
 
 }
-getPoster();        
+getPoster();   
+
+// to display a movie poster of your choice next to the image of Pikachu 
+// using the t parameter endpoint ???????
