@@ -25,10 +25,15 @@ const p7 = document.createElement('p');
 fourth.append(p7);
 
 // 1a. 
-const stringJSON = `{"id":18,"type":"programming","setup":"Why did the programmer quit his job?","punchline":"Because he didn't get arrays."}`;
-const jokeJS1 = JSON.parse(stringJSON);
+// const stringJSON = `{"id":18,"type":"programming","setup":"Why did the programmer quit his job?","punchline":"Because he didn't get arrays."}`;
+const jokeJS1 = JSON.parse(`{"id":18,"type":"programming","setup":"Why did the programmer quit his job?","punchline":"Because he didn't get arrays."}`);
+
 // 1b.
 p1.innerText = jokeJS1.setup;
+// OR
+// const {setup} = jokeJS1;
+// p1.innerText = setup;
+
 // 1c. 
 p2.innerText = jokeJS1.punchline;
 
@@ -39,19 +44,28 @@ p2.innerText = jokeJS1.punchline;
 axios.get(`https://friends-quotes-api.herokuapp.com/quotes/random/`)
 
 // 2b. 
-.then(res => {
-    const friendJS2 = res;
-    // 2c.
+// .then(res => {
+//     const friendJS2 = res;
+//     // 2c.
+//     p3.innerText = friendJS2.data.character;
+//     p4.innerText = friendJS2.data.quote;
+// })
+
+.then(friendJS2 => {
     p3.innerText = friendJS2.data.character;
     p4.innerText = friendJS2.data.quote;
 })
 
 // 2d. 
-.catch(err => {
-    console.log(`rejected`);
-    console.log(err);
-});
+// .catch(err => {
+//     console.log(`rejected`);
+//     console.log(err);
+// });
 
+.catch(rejected => {
+    console.log(rejected);
+    console.log(`Try agian`);
+});
 
 // 3b.
 async function quoteFunc(){
@@ -63,7 +77,7 @@ async function quoteFunc(){
         p5.innerText = quoteJS3.data.character;
         p6.innerText = quoteJS3.data.quote;
     }catch(err){
-        console.log(`rejected`);
+        // console.log(`rejected`);
         console.log(err);
     }
 };
@@ -73,19 +87,35 @@ quoteFunc();
 // Use the TVMazeAPI for question 4 (Link below)…
 // https://www.tvmaze.com/api
 
-// 4a. 
-async function tvMazeFunc(){
-    // 4b. 
-    try{
-    const tvmaze = `https://api.tvmaze.com`;
-    const episodeByNumber = `/shows/38963/episodebynumber?season=2&number=8`;
-    const finalEp = tvmaze + episodeByNumber;
-    const res = await axios.get(finalEp);
-    // console.log(res);
-    p7.innerText = res.data.name;
+// // 4a. 
+// async function tvMazeFunc(){
+//     // 4b. 
+//     try{
+//     const tvmaze = `https://api.tvmaze.com`;
+//     const episodeByNumber = `/shows/38963/episodebynumber?season=2&number=8`;
+//     const finalEp = tvmaze + episodeByNumber;
+//     const res = await axios.get(finalEp);
+//     // console.log(res);
+//     p7.innerText = res.data.name;
 
+//     } catch(err){
+//         // console.log(`rejected`);
+//         console.log(err);
+//     }
+// }
+// tvMazeFunc();
+
+// OR
+const id = 38963;
+const season = 2;
+const episode = 8;
+const tvMazeURL = `https://api.tvmaze.com/shows/${id}/episodebynumber?season=${season}&number=${episode}`;
+async function tvMazeFunc(){ 
+    try{
+    const show = await axios.get(tvMazeURL);
+    p7.innerText = show.data.name;
     } catch(err){
-        console.log(`rejected`);
+        // console.log(`rejected`);
         console.log(err);
     }
 }
@@ -110,22 +140,43 @@ async function getImg(){
 }
 getImg();
 
-// 6. Use the OMDb API as well as Axios (http://www.omdbapi.com/) to display a movie poster of your choice next to the image of Pikachu using the t parameter endpoint (NOTE: Technically it is a query string, but they call it a parameter on the documentation. Also, you will need to create/request a FREE API key at http://www.omdbapi.com/apikey.aspx to complete this. Finally, you can use .then or Async Await to complete this question it is up to you.)
+// 6. 
+// const body = document.querySelector(`body`);
+// async function getPoster(){
+//     try{
+//         const omdbAPI = `http://www.omdbapi.com/?i=tt0119822&apikey=a3726122`;
+//         const aG = await axios.get(omdbAPI);
+//         console.log(aG);
+//         console.log(aG.data);
+        
+//         const image = document.createElement(`img`);
+//         image.src = aG.data.Poster;
+//         // fourth.after(image);
+//         body.append(image);
+//     }
+//     catch(err){
+//         console.log(err);
+//     }
+
+// }
+// getPoster();   
+const apikey = `a3726122`;
+const title = `Sleepless in Seattle`;
+const omdbURL = `http://www.omdbapi.com/?apikey=${apikey}&t=${title}`;
+
+const body = document.querySelector(`body`);
 async function getPoster(){
     try{
-        const omdbAPI = `http://www.omdbapi.com/?i=tt0119822&apikey=a3726122`;
-        const aG = await axios.get(omdbAPI);
-        console.log(aG);
-        console.log(aG.data);
-        
+        // const omdbAPI = `http://www.omdbapi.com/?i=tt0119822&apikey=a3726122`;
+        const response = await axios.get(omdbURL);        
         const image = document.createElement(`img`);
-        image.src = aG.data.Poster;
-        fourth.after(image);
+        image.src = response.data.Poster;
+        // fourth.after(image);
+        body.append(image);
     }
     catch(err){
         console.log(err);
     }
-
 }
 getPoster();   
 
