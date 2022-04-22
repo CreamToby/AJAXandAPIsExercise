@@ -179,6 +179,3 @@ async function getPoster(){
     }
 }
 getPoster();   
-
-// to display a movie poster of your choice next to the image of Pikachu 
-// using the t parameter endpoint ???????
